@@ -43,5 +43,29 @@ move to 12.3
 
 ## Separation of Concerns for Binary Projects
 - Split your program into a main.rs file and a lib.rs file and move your program’s logic to lib.rs.
-As long as your command line parsing logic is small, it can remain in main.rs.
-When the command line parsing logic starts getting complicated, extract it from main.rs and move it to lib.rs.
+- As long as your command line parsing logic is small, it can remain in main.rs.
+- When the command line parsing logic starts getting complicated, extract it from main.rs and move it to lib.rs.
+
+function of main.rs->
+- Calling the command line parsing logic with the argument values
+- Setting up any other configuration
+- Calling a run function in lib.rs
+- Handling the error if run returns an error
+
+improve `parse_config` function to return configuration values which are related
+also have a exception if the argument are less than 3 char
+
+return an result instead of panic-> have some error handling to handle the Result value returned from the build function and exit the process more cleanly in the error case. ; 
+rename function from `new` to `build`
+
+## handling the exit cases
+define explicitly the exit case with error code 1 to avoid panic! 
+
+## Run function
+The run function now contains all the remaining logic from main, starting from reading the file. The run function takes the Config instance as an argument.
+
+now handle for it's error handling, done with it
+
+## Error handling
+mak sure to have test edge cases for like arg check, file and path check
+then move this logic to another module and import it into main.rs file via Crate

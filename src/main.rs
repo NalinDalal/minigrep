@@ -1,16 +1,27 @@
 use std::env; //std::env::args will panic if any argument contains invalid Unicode
-use std::fs;
+use std::process;
+
+use minigrep::Config;
+
 fn main() {
     let args: Vec<String> = env::args().collect(); //collect method is used to turn iterator into
     //a vector; here a vector of string
     //dbg!(args);
-    let query = &args[1];
-    let file_path = &args[2];
 
-    println!("Searching for {query}");
-    println!("In file {file_path}");
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
 
-    let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
+    //error handling
 
-    println!("With text:\n{contents}");
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    //iuse if let for error handling
+    if let Err(e) = minigrep::run(config) {
+        //run config function
+        println!("Application error: {e}");
+        process::exit(1);
+    }
 }
