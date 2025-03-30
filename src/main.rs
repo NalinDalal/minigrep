@@ -9,7 +9,7 @@ fn main() {
     //dbg!(args);
 
     let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
+        eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
     });
 
@@ -21,7 +21,7 @@ fn main() {
     //iuse if let for error handling
     if let Err(e) = minigrep::run(config) {
         //run config function
-        println!("Application error: {e}");
+        eprintln!("Application error: {e}");
         process::exit(1);
     }
 }
